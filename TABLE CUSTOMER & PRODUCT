@@ -58,3 +58,98 @@ VALUES
 (19, 'Teatime Chocolate Biscuits', 8, 3, '10 boxes x 12 pieces', 9.2), 
 (20, 'Sir Rodney''s Marmalade', 8, 3, '30 gift boxes', 81);
 
+------------------------------------------------------------How To Search Data-----------------------------------------------------
+1. select*from xcust
+where Country ='Mexico';
+
+2. select*from xcust
+where City in ('Paris', 'London');
+
+3. select*from Products
+where Price >= 30;
+
+4. select*from Products
+where Price between 40 and 60;
+
+5. select*from xcust
+where City like 's%';
+
+6. select*from xcust
+where Country='Germany' and City = 'Berlin';
+
+7. select*from xcust
+where Country='Germany' or Country = 'Spain';
+
+8. select*from xcust
+where not Country='Germany';
+
+9. select CustomerID, CustomerName, ContactName, Address
+from xcust
+where Address is null;
+
+10. select min(Price) AS
+SmallestPrice
+from Products;
+
+11.select max(Price) AS
+LargestPrice
+from Products;
+
+12. select city union gbs
+
+13. 
+
+14. select all ProductName
+from Products
+where true
+
+15. SELECT * FROM Products
+WHERE Price > (SELECT Price FROM Products WHERE Price > 20)
+
+16. SELECT * FROM Products
+WHERE EXISTS (SELECT Price FROM Products WHERE Price > 50);
+
+17. SELECT *, rowid 
+FROM xcust 
+WHERE rowid = 2
+
+18.SELECT * FROM Products 
+ORDER BY Price ASC;
+
+19. SELECT * FROM Products 
+ORDER BY ProductName DESC;
+
+20. SELECT * FROM xcust 
+ORDER BY PostalCode ASC, CustomerName DESC;
+
+21. SELECT CustomerID, CustomerName, ContactName 
+FROM xcust 
+LIMIT 10;
+
+22.SELECT City, COUNT(*) as 
+jumlah_pelanggan 
+FROM xcust
+group by City;
+
+23. SELECT CustomerName, City, Country 
+FROM xcust;
+
+24. SELECT CustomerName AS Customer, ContactName AS ContactPerson 
+FROM xcust;
+
+25. SELECT CustomerName AS Customer_A, ProductName AS Product_B
+FROM xcust, Products
+WHERE CustomerID = ProductID
+AND City = CategoryID
+ORDER BY City;
+
+26. SELECT DISTINCT Price 
+FROM Products;
+
+27. SELECT PostalCode 
+FROM xcust
+UNION
+SELECT SupplierID 
+FROM Products;
+
+
