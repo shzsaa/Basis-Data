@@ -1,0 +1,161 @@
+------------------------------------------------------------- Membuat database dengan nama "life_balance_app"-------------------------------------------------------------------
+CREATE DATABASE life_balance_app;
+
+-- Memilih database
+USE life_balance_app;
+
+-------------------------------------------------------------------------membuat tabel-------------------------------------------------------------------------------------
+-- Tabel untuk menyimpan data pengguna
+CREATE TABLE Users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    age INTEGER,
+    job_title TEXT,
+    location TEXT,
+    marital_status TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabel untuk menyimpan data anak-anak
+CREATE TABLE Children (
+    child_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    name TEXT NOT NULL,
+    age INTEGER NOT NULL,
+    preferences TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(id)
+);
+
+-- Tabel untuk menyimpan informasi makanan sehat
+CREATE TABLE Meals (
+    meal_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    calories INTEGER,
+    ingredients TEXT,
+    recommended_for_kids BOOLEAN,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabel untuk menyimpan aktivitas harian
+CREATE TABLE Activities (
+    activity_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    activity_name TEXT NOT NULL,
+    category TEXT NOT NULL,  -- Contoh: 'Family Time', 'Work', 'Exercise', 'Personal'
+    duration INTEGER NOT NULL,  -- Durasi dalam menit
+    date DATE NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(id)
+);
+
+-- Tabel untuk menyimpan catatan kesehatan harian
+CREATE TABLE Health_Tracking (
+    health_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    steps INTEGER,  -- Jumlah langkah
+    calories_burned INTEGER,  -- Kalori yang terbakar
+    sleep_hours REAL,  -- Jumlah jam tidur
+    exercise_time INTEGER,  -- Waktu olahraga dalam menit
+    date DATE NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(id)
+);
+
+-- Tabel untuk menyimpan laporan keseimbangan kerja-hidup
+CREATE TABLE Balance_Reports (
+    report_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    work_hours INTEGER,  -- Jam kerja
+    family_time_hours INTEGER,  -- Jam bersama keluarga
+    personal_time_hours INTEGER,  -- Jam untuk diri sendiri
+    report_date DATE NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(id)
+);
+
+--------------------------------------------------------------------------------------------------------menambahkan data------------------------------------------------------------
+-- Contoh menambahkan pengguna baru
+INSERT INTO Users (name, email, age, job_title, location, marital_status) 
+VALUES ('Maya', 'maya@startup.com', 37, 'Direktur Pemasaran', 'Jakarta Pusat', 'Menikah');
+
+-- Contoh menambahkan data anak
+INSERT INTO Children (user_id, name, age, preferences)
+VALUES (1, 'Lily', 6, 'Suka sayuran hijau, main lego');
+INSERT INTO Children (user_id, name, age, preferences)
+VALUES (1, 'Leo', 4, 'Suka ayam goreng, bermain bola');
+
+-- Contoh menambahkan makanan baru
+INSERT INTO Meals (name, calories, ingredients, recommended_for_kids)
+VALUES ('Salad Ayam', 350, 'Ayam, sayuran, saus', 1);
+INSERT INTO Meals (name, calories, ingredients, recommended_for_kids)
+VALUES ('Smoothie Buah', 150, 'Pisang, strawberry, susu almond', 1);
+
+-- Contoh menambahkan aktivitas
+INSERT INTO Activities (user_id, activity_name, category, duration, date)
+VALUES (1, 'Lari Pagi', 'Exercise', 30, '2024-09-23');
+INSERT INTO Activities (user_id, activity_name, category, duration, date)
+VALUES (1, 'Makan Malam Bersama Keluarga', 'Family Time', 90, '2024-09-23');
+
+-- Contoh menambahkan data kesehatan harian
+INSERT INTO Health_Tracking (user_id, steps, calories_burned, sleep_hours, exercise_time, date)
+VALUES (1, 10000, 500, 7.5, 30, '2024-09-23'), (1, 12000, 550, 7.8, 40, '2024-09-24'), (1, 9000, 450, 6.5, 25, '2024-09-25');
+
+-- Contoh menambahkan laporan keseimbangan
+INSERT INTO Balance_Reports (user_id, work_hours, family_time_hours, personal_time_hours, report_date)
+VALUES (1, 8, 2, 1, '2024-09-23');
+
+-----------------------------------------------------------------------------menampilkan data--------------------------------------------------------------------------------------
+
+-- Menampilkan seluruh data pengguna
+SELECT * FROM Users;
+
+SELECT * FROM Balance_Reports;
+
+SELECT * FROM Children;
+
+SELECT * FROM Meals;
+
+SELECT * FROM Activities;
+
+SELECT * FROM Health_Tracking;
+
+-- Menampilkan aktivitas harian pengguna
+SELECT activity_name, category, duration, date 
+FROM Activities
+WHERE user_id = 1 AND date = '2024-09-23';
+
+-- Menampilkan makanan yang direkomendasikan untuk anak-anak
+SELECT name, calories, ingredients 
+FROM Meals
+WHERE recommended_for_kids = 1;
+
+-- Menampilkan laporan keseimbangan kerja-hidup pengguna
+SELECT work_hours, family_time_hours, personal_time_hours 
+FROM Balance_Reports
+WHERE user_id = 1 AND report_date = '2024-09-23';
+
+------------------------------------------------------------------------------mengubah data---------------------------------------------------------------------------
+
+-- Mengubah durasi dari kegiatan 'Lari Pagi'
+UPDATE Activities 
+SET duration = 40 
+WHERE activity_name = 'Lari Pagi' AND user_id = 1 AND date = '2024-09-23';
+
+-- Mengubah jumlah langkah yang dicapai pengguna
+UPDATE Health_Tracking 
+SET steps = 12000 
+WHERE user_id = 1 AND date = '2024-09-23';
+
+---------------------------------------------------------------------nebghapus data-----------------------------------------------------------------------------------
+
+-- Menghapus aktivitas 'Lari Pagi'
+DELETE FROM Activities 
+WHERE activity_name = 'Lari Pagi' AND user_id = 1 AND date = '2024-09-23';
+
+-- Menghapus data kesehatan pada tanggal tertentu
+DELETE FROM Health_Tracking 
+WHERE user_id = 1 AND date = '2024-09-23';
+
+
