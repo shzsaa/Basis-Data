@@ -145,10 +145,11 @@ WHERE activity_name = 'Lari Pagi' AND user_id = 1 AND date = '2024-09-23';
 
 -- Mengubah jumlah langkah yang dicapai pengguna
 UPDATE Health_Tracking 
-SET steps = 12000 
-WHERE user_id = 1 AND date = '2024-09-23';
+SET steps = 15000 
+WHERE user_id = 1 AND date = '2024-09-24';
 
----------------------------------------------------------------------nebghapus data-----------------------------------------------------------------------------------
+
+---------------------------------------------------------------------menghapus data-----------------------------------------------------------------------------------
 
 -- Menghapus aktivitas 'Lari Pagi'
 DELETE FROM Activities 
