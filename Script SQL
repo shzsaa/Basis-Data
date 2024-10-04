@@ -1,0 +1,257 @@
+---------------------------------------------------------------------------------------Create Data---------------------------------------------------------------------------------
+
+CREATE DATABASE akademik;
+
+CREATE TABLE dosen (
+  Nip varchar(12) NOT NULL,
+  Nama_Dosen varchar(25) NOT NULL,
+  PRIMARY KEY (Nip)
+);
+
+CREATE TABLE mahasiswa (
+  Nim TEXT NOT NULL,
+  Nama_Mhs TEXT NOT NULL,
+  Tgl_Lahir DATE NOT NULL,
+  Alamat TEXT NOT NULL,
+  Jenis_Kelamin TEXT NOT NULL CHECK (Jenis_Kelamin IN ('Laki-laki', 'Perempuan')),
+  IPK DECIMAL(10, 2),
+  PRIMARY KEY (Nim)
+);
+
+CREATE TABLE perkuliahan (
+  Nim TEXT,
+  Kode_MK TEXT,
+  Nip TEXT,
+  Kehadiran DECIMAL(6,2), 
+  Nilai_Bobot CHAR(1) NOT NULL,
+  Nilai_Angka DECIMAL(6,2), 
+  Poin TEXT,
+  FOREIGN KEY (Nip) REFERENCES dosen (Nip) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (Nim) REFERENCES mahasiswa (Nim) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (Kode_MK) REFERENCES matakuliah (Kode_MK) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE matakuliah (
+  Kode_MK TEXT PRIMARY KEY,
+  Nama_MK TEXT NOT NULL
+
+
+-------------------------------------------------------------------------------Insert----------------------------------------------------------------------------------------------
+
+INSERT INTO dosen (Nip, Nama_Dosen) VALUES
+('0429038801', 'Dr. Budi Santoso'),
+('0512010001', 'Dr. Ani Sutrisno'),
+('0428010102', 'Prof. Dr. Rina Wijaya');
+
+INSERT INTO mahasiswa (Nim, Nama_Mhs, Tgl_Lahir, Alamat, Jenis_Kelamin, IPK) VALUES
+('123456789', 'Andi Prasetyo', '2002-05-21', 'Jl. Merpati No. 5, Jakarta', 'Laki-laki', 3.50),
+('987654321', 'Dewi Lestari', '2001-11-10', 'Jl. Melati No. 12, Bogor', 'Perempuan', 3.80),
+('192837465', 'Ahmad Fauzi', '2000-01-15', 'Jl. Kenanga No. 7, Tangerang', 'Laki-laki', 3.20);
+
+INSERT INTO matakuliah (Kode_MK, Nama_MK, Sks) VALUES
+('MK001', 'Basis Data', 3),
+('MK002', 'Pemrograman Web', 3),
+('MK003', 'Sistem Operasi', 3);
+
+INSERT INTO perkuliahan (Nim, Kode_MK, Nip, Kehadiran, Nilai_Bobot, Nilai_Angka, Poin) VALUES
+('123456789', 'MK001', '0429038801', 85.00, 'A', 90.00, '4'),
+('987654321', 'MK002', '0512010001', 90.00, 'B', 75.50, '3'),
+('192837465', 'MK003', '0428010102', 95.00, 'A', 85.00, '4');
+
+---------------------------------------------------------------------------------------Delete Data-----------------------------------------------------------------------------------
+
+DELETE FROM dosen
+WHERE Nip = '0429038801';
+
+DELETE FROM mahasiswa
+WHERE Nim = '123456789';
+
+DELETE FROM matakuliah
+WHERE Kode_MK = 'MK002';
+
+DELETE FROM perkuliahan
+WHERE Nim = '987654321' AND Kode_MK = 'MK003';
+
+----------------------------------------------------------------input data lagi setelah delete data-----------------------------------------------------------------------
+
+INSERT INTO mahasiswa (Nim, Nama_Mhs, Tgl_Lahir, Alamat, Jenis_Kelamin, IPK) VALUES
+('202307001', 'Randi Syacputra', '2003-05-12', 'Jl. Melati No. 4', 'Laki-laki', 3.75),
+('202307002', 'Ayu Pratiwi', '2003-06-15', 'Jl. Mawar No. 2', 'Perempuan', 3.80),
+('202307003', 'Budi Santoso', '2003-07-20', 'Jl. Kenanga No. 7', 'Laki-laki', 3.60),
+('202307004', 'Citra Dewi', '2003-08-25', 'Jl. Anggrek No. 5', 'Perempuan', 3.90),
+('202307005', 'Dani Saputra', '2003-09-30', 'Jl. Jati No. 3', 'Laki-laki', 3.85);
+
+INSERT INTO dosen (Nip, Nama_Dosen, Tgl_Lahir, Alamat) VALUES
+('0429038801', 'Nurita, S.Kom., MMSI.', '1985-09-10', 'Jl. Bunga No. 5'),
+('0429038802', 'Andi Rahmat, S.T.', '1982-08-12', 'Jl. Melati No. 10'),
+('0429038803', 'Siti Aminah, M.Kom.', '1983-07-22', 'Jl. Cempaka No. 3'),
+('0429038804', 'Budi Hartono, S.Kom.', '1980-06-30', 'Jl. Flamboyan No. 1'),
+('0429038805', 'Rina Widiastuti, M.T.', '1986-05-15', 'Jl. Taman No. 8');
+
+INSERT INTO matakuliah (Kode_MK, Nama_MK, Sks) VALUES
+('INF-001', 'Basis Data', 3),
+('INF-002', 'Pemrograman Web', 3),
+('INF-003', 'Sistem Operasi', 4),
+('INF-004', 'Jaringan Komputer', 3),
+('INF-005', 'Rekayasa Perangkat Lunak', 4);
+
+INSERT INTO perkuliahan (Nim, Kode_MK, Nip, Kehadiran, Nilai_Bobot, Nilai_Angka, Poin) VALUES
+('202307001', 'INF-001', '0429038801', 90, 'A', 93.59, '4'),
+('202307002', 'INF-002', '0429038802', 80, 'B', 75.00, '2'),
+('202307003', 'INF-003', '0429038803', 70, 'C', 85.00, '3'),
+('202307004', 'INF-004', '0429038804', 65, 'B', 82.71, '3'),
+('202307005', 'INF-005', '0429038805', 75, 'A', 90.00, '4');
+
+
+INSERT INTO matakuliah (Nim, Kode_MK, SKS, Nilai, Nama_MK) VALUES
+('202307001', 'EKM', 3, 'A', 'Pengantar Ekonomi Makro'),
+('202307001', 'SB', 3, 'A', 'Statistika Bisnis'),
+('202307001', 'PB', 3, 'B', 'Pengantar Bisnis'),
+('202307001', 'KD', 4, 'A', 'Kepemimpinan Dasar'),
+('202307001', 'BI1', 3, 'B', 'Bahasa Indonesia'),
+('202307001', 'BI2', 2, 'A', 'Bahasa Inggris'),
+('202307001', 'MB', 2, 'B', 'Matematika Bisnis');
+
+INSERT INTO matakuliah (Nim, Kode_MK, SKS, Nilai, Nama_MK) VALUES
+('987654321', 'EKM001', 3, 'A', 'Pengantar Ekonomi Makro'),
+('987654321', 'SB001', 3, 'A', 'Statistika Bisnis'),
+('987654321', 'PB001', 3, 'B', 'Pengantar Bisnis'),
+('987654321', 'KD001', 4, 'A', 'Kepemimpinan Dasar'),
+('987654321', 'BI001', 3, 'B', 'Bahasa Indonesia'),
+('987654321', 'BI002', 2, 'A', 'Bahasa Inggris'),
+('987654321', 'MB001', 2, 'B', 'Matematika Bisnis'),
+
+('192837465', 'EKM002', 3, 'B', 'Pengantar Ekonomi Makro'),
+('192837465', 'SB002', 3, 'B', 'Statistika Bisnis'),
+('192837465', 'PB002', 3, 'A', 'Pengantar Bisnis'),
+('192837465', 'KD002', 4, 'C', 'Kepemimpinan Dasar'),
+('192837465', 'BI003', 3, 'B', 'Bahasa Indonesia'),
+('192837465', 'BI004', 2, 'A', 'Bahasa Inggris'),
+('192837465', 'MB002', 2, 'C', 'Matematika Bisnis'),
+
+('202307004', 'EKM003', 3, 'A', 'Pengantar Ekonomi Makro'),
+('202307004', 'SB003', 3, 'A', 'Statistika Bisnis'),
+('202307004', 'PB003', 3, 'B', 'Pengantar Bisnis'),
+('202307004', 'KD003', 4, 'A', 'Kepemimpinan Dasar'),
+('202307004', 'BI005', 3, 'A', 'Bahasa Indonesia'),
+('202307004', 'BI006', 2, 'A', 'Bahasa Inggris'),
+('202307004', 'MB003', 2, 'B', 'Matematika Bisnis'),
+
+('202307005', 'EKM004', 3, 'A', 'Pengantar Ekonomi Makro'),
+('202307005', 'SB004', 3, 'A', 'Statistika Bisnis'),
+('202307005', 'PB004', 3, 'B', 'Pengantar Bisnis'),
+('202307005', 'KD004', 4, 'A', 'Kepemimpinan Dasar'),
+('202307005', 'BI007', 3, 'B', 'Bahasa Indonesia'),
+('202307005', 'BI008', 2, 'A', 'Bahasa Inggris'),
+('202307005', 'MB004', 2, 'B', 'Matematika Bisnis');
+
+
+-------------------------------------------------------------------------------------Update Data-----------------------------------------------------------------------------------------
+
+UPDATE dosen 
+SET Nama_Dosen = 'Nurita, S.Kom., MMSI.'
+WHERE Nip = '0429038801';
+
+UPDATE mahasiswa 
+SET Alamat = 'Jl. Mawar No. 15, Jakarta'
+WHERE Nim = '123456789';
+
+UPDATE mahasiswa 
+SET IPK = 3.90
+WHERE Nim = '987654321';
+
+UPDATE matakuliah 
+SET Nama_MK = 'Pemrograman Berbasis Web', Sks = 4
+WHERE Kode_MK = 'MK002';
+
+UPDATE perkuliahan 
+SET Nilai_Bobot = 'B', Nilai_Angka = 78.50
+WHERE Nim = '123456789' AND Kode_MK = 'MK001';
+
+UPDATE perkuliahan
+SET Nilai_Angka = Nilai_Angka * 0.65  -- Mengurangi 35% dari Nilai_Angka
+WHERE Kehadiran < 75;
+
+UPDATE perkuliahan
+SET Poin = 
+  CASE
+    WHEN Nilai_Bobot = 'A' THEN '4'
+    WHEN Nilai_Bobot = 'B' THEN '3'
+    WHEN Nilai_Bobot = 'C' THEN '2'
+    WHEN Nilai_Bobot = 'D' THEN '1'
+    WHEN Nilai_Bobot = 'E' THEN '0'
+    ELSE NULL
+  END;
+
+
+--------------------------------------------------------------------------------Alter Table-------------------------------------------------------------------------
+
+ALTER TABLE dosen
+ADD COLUMN Tgl_Lahir DATE;
+
+ALTER TABLE dosen
+ADD COLUMN Alamat VARCHAR(50);
+
+ALTER TABLE matakuliah
+ADD COLUMN Nim VARCHAR(9);
+
+ALTER TABLE matakuliah
+ADD COLUMN Nilai CHAR(1);
+
+-----------------------------------------------------------------------------Stored Procedure------------------------------------------------------------------------------
+
+CREATE PROCEDURE SP_Tambah_Dosen(IN Nip VARCHAR(12), IN Nama VARCHAR(50))
+BEGIN
+    INSERT INTO dosen (Nip, Nama) VALUES (Nip, Nama);
+END;
+
+
+CREATE PROCEDURE SP_Tambah_Mahasiswa(IN Nim VARCHAR(9), IN Nama_Mhs VARCHAR(25), IN Tgl_Lahir DATE, IN Alamat VARCHAR(50), IN Jenis_Kelamin TEXT, IN IPK DECIMAL(10,2))
+BEGIN
+    INSERT INTO mahasiswa (Nim, Nama_Mhs, Tgl_Lahir, Alamat, Jenis_Kelamin, IPK) VALUES (Nim, Nama_Mhs, Tgl_Lahir, Alamat, Jenis_Kelamin, IPK);
+END;
+
+
+CREATE PROCEDURE SP_Tambah_Matakuliah(IN Kode_MK VARCHAR(7), IN SKS INT, IN Nama_MK VARCHAR(50))
+BEGIN
+    INSERT INTO matakuliah (Kode_MK, SKS, Nama_MK) VALUES (Kode_MK, SKS, Nama_MK);
+END;
+
+
+CREATE PROCEDURE SP_Query_Dosen(IN Nip VARCHAR(12))
+BEGIN
+    SELECT * FROM dosen WHERE Nip = Nip;
+END;
+
+
+CREATE PROCEDURE SP_Query_Mahasiswa(IN Nim VARCHAR(9))
+BEGIN
+    SELECT * FROM mahasiswa WHERE Nim = Nim;
+END;
+
+
+CREATE PROCEDURE SP_Update_Dosen(IN Nip VARCHAR(12), IN Nama VARCHAR(50))
+BEGIN
+    UPDATE dosen SET Nama = Nama WHERE Nip = Nip;
+END;
+
+
+CREATE PROCEDURE SP_Update_Mahasiswa(IN Nim VARCHAR(9), IN Nama_Mhs VARCHAR(25), IN Tgl_Lahir DATE, IN Alamat VARCHAR(50), IN Jenis_Kelamin TEXT, IN IPK DECIMAL(10,2))
+BEGIN
+    UPDATE mahasiswa SET Nama_Mhs = Nama_Mhs, Tgl_Lahir = Tgl_Lahir, Alamat = Alamat, Jenis_Kelamin = Jenis_Kelamin, IPK = IPK WHERE Nim = Nim;
+END;
+
+
+CREATE PROCEDURE SP_Delete_Dosen(IN Nip VARCHAR(12))
+BEGIN
+    DELETE FROM dosen WHERE Nip = Nip;
+END;
+
+
+CREATE PROCEDURE SP_Delete_Mahasiswa(IN Nim VARCHAR(9))
+BEGIN
+    DELETE FROM mahasiswa WHERE Nim = Nim;
+END;
+
+
+
