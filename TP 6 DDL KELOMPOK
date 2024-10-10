@@ -1,11 +1,8 @@
 -------------------------------------------------- DATA DEFINITION LANGUAGE-------------------------------------------------------------------------------
--- Membuat database
 CREATE DATABASE IF NOT EXISTS life_balance_app;
 
--- Menggunakan database
 USE life_balance_app;
 
---Tabel untuk menyimpan data pengguna
 CREATE TABLE Users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
@@ -17,7 +14,6 @@ CREATE TABLE Users (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
--- Tabel untuk menyimpan data anak-anak
 CREATE TABLE Children (
     child_id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER,
@@ -28,7 +24,6 @@ CREATE TABLE Children (
     FOREIGN KEY (user_id) REFERENCES Users(id)
 );
 
--- Tabel untuk menyimpan informasi makanan sehat
 CREATE TABLE Meals (
     meal_id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
@@ -38,7 +33,6 @@ CREATE TABLE Meals (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
--- Tabel untuk menyimpan aktivitas harian
 CREATE TABLE Activities (
     activity_id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER,
@@ -50,7 +44,6 @@ CREATE TABLE Activities (
     FOREIGN KEY (user_id) REFERENCES Users(id)
 );
 
--- Tabel untuk menyimpan catatan kesehatan harian
 CREATE TABLE Health_Tracking (
     health_id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER,
@@ -63,7 +56,6 @@ CREATE TABLE Health_Tracking (
     FOREIGN KEY (user_id) REFERENCES Users(id)
 );
 
--- Tabel untuk menyimpan laporan keseimbangan kerja-hidup
 CREATE TABLE Balance_Reports (
     report_id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER,
