@@ -1,0 +1,25 @@
+--------------------------------------------------------------------DATA QUERY LANGUAGE----------------------------------------------------------------------------------------------------
+
+SELECT * FROM Users;
+
+SELECT * FROM Balance_Reports;
+
+SELECT * FROM Children;
+
+SELECT * FROM Meals;
+
+SELECT * FROM Activities;
+
+SELECT * FROM Health_Tracking;
+
+SELECT activity_name, category, duration, date 
+FROM Activities
+WHERE user_id = 1 AND date = '2024-09-23';
+
+SELECT name, calories, ingredients 
+FROM Meals
+WHERE recommended_for_kids = 1;
+
+SELECT work_hours, family_time_hours, personal_time_hours 
+FROM Balance_Reports
+WHERE user_id = 1 AND report_date = '2024-09-23';
