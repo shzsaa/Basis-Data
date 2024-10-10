@@ -1,4 +1,4 @@
----------------------------------------------------------------------DATA MANIPULATION LANGUAGE --------------------------------------------------------------------------------------
+----------------------------------------------------------------------DATA MANIPULATION LANGUAGE --------------------------------------------------------------------------------------
 
 INSERT INTO Users (name, email, age, job_title, location, marital_status) 
 VALUES ('Maya', 'maya@startup.com', 37, 'Direktur Pemasaran', 'Jakarta Pusat', 'Menikah');
