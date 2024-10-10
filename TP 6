@@ -1,0 +1,61 @@
+--------------------------------------------------------------------------CREATE DATA----------------------------------------------------------------------------------------------------
+CREATE TABLE mahasiswa (
+    nim INT PRIMARY KEY,              
+    nama TEXT NOT NULL,              
+    prodi TEXT NOT NULL,             
+    bayar REAL NOT NULL,              
+    tanggal_masuk TEXT NOT NULL,      
+    ipk REAL,                         
+    aktif INT DEFAULT 1               
+);
+
+-----------------------------------------------------------------------------INSERT----------------------------------------------------------------------------------------------------
+
+INSERT INTO mahasiswa (nim, nama, prodi, bayar, tanggal_masuk, ipk, aktif)
+VALUES
+    (2021001, 'Teesa Shahnaz', 'Informatika', 75.000, '2022-09-01', 3.75, 1),
+    (2021002, 'Ahmad Fikri', 'Sistem Informasi', 72.500, '2022-09-01', 3.40, 1),
+    (2021003, 'Siti Aminah', 'Teknik Sipil', 70.000, '2021-09-01', 3.60, 1),
+    (2021004, 'Budi Santoso', 'Desain Produk', 80.000, '2021-09-01', 3.85, 1),
+    (2021005, 'Wulan Puspita', 'Arsitektur', 77.000, '2020-09-01', 3.50, 0);
+------------------------------------------------------------------------SELECT----------------------------------------------------------------------------------------------------------
+
+SELECT * FROM mahasiswa
+
+SELECT prodi, COUNT(*) AS total_mahasiswa
+FROM mahasiswa
+group by prodi;
+
+SELECT prodi, SUM(bayar) AS total_pembayaran
+FROM mahasiswa;
+
+SELECT prodi, MAX(ipk) AS ipk_tertinggi
+FROM mahasiswa;
+
+SELECT prodi, MIN(ipk) AS ipk_terendah
+FROM mahasiswa;
+
+SELECT DISTINCT prodi AS jumlah_prodi_unik
+FROM mahasiswa;
+
+---------------------------------------------------------------------------STORE PROCEDURE----------------------------------------------------------------------------------------------
+
+DELIMITER //
+
+CREATE PROCEDURE InsertMahasiswa (
+    IN xnim INT,
+    IN xnama VARCHAR(50),
+    IN xprodi VARCHAR(50),
+    IN xbayar DECIMAL(10, 2),
+    IN xtanggal_masuk DATE,
+    IN xipk DECIMAL(3, 2),
+    IN xaktif BOOLEAN
+)
+BEGIN
+    INSERT INTO mahasiswa (nim, nama, prodi, bayar, tanggal_masuk, ipk, aktif)
+    VALUES (xnim, xnama, xprodi, xbayar, xtanggal_masuk, xipk, xaktif);
+END //
+
+DELIMITER ;
+
+CALL InsertMahasiswa(2021006, 'Rina Sari', 'Teknik Industri', 8000000.00, '2023-09-01', 3.80, 1);
