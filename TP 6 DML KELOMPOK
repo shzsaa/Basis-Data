@@ -1,0 +1,41 @@
+---------------------------------------------------------------------DATA MANIPULATION LANGUAGE --------------------------------------------------------------------------------------
+
+INSERT INTO Users (name, email, age, job_title, location, marital_status) 
+VALUES ('Maya', 'maya@startup.com', 37, 'Direktur Pemasaran', 'Jakarta Pusat', 'Menikah');
+
+INSERT INTO Children (user_id, name, age, preferences)
+VALUES (1, 'Lily', 6, 'Suka sayuran hijau, main lego');
+INSERT INTO Children (user_id, name, age, preferences)
+VALUES (1, 'Leo', 4, 'Suka ayam goreng, bermain bola');
+
+INSERT INTO Meals (name, calories, ingredients, recommended_for_kids)
+VALUES ('Salad Ayam', 350, 'Ayam, sayuran, saus', 1);
+INSERT INTO Meals (name, calories, ingredients, recommended_for_kids)
+VALUES ('Smoothie Buah', 150, 'Pisang, strawberry, susu almond', 1);
+
+INSERT INTO Activities (user_id, activity_name, category, duration, date)
+VALUES (1, 'Lari Pagi', 'Exercise', 30, '2024-09-23');
+INSERT INTO Activities (user_id, activity_name, category, duration, date)
+VALUES (1, 'Makan Malam Bersama Keluarga', 'Family Time', 90, '2024-09-23');
+
+INSERT INTO Health_Tracking (user_id, steps, calories_burned, sleep_hours, exercise_time, date)
+VALUES (1, 10000, 500, 7.5, 30, '2024-09-23'), (1, 12000, 550, 7.8, 40, '2024-09-24'), (1, 9000, 450, 6.5, 25, '2024-09-25');
+
+INSERT INTO Balance_Reports (user_id, work_hours, family_time_hours, personal_time_hours, report_date)
+VALUES (1, 8, 2, 1, '2024-09-23');
+
+
+UPDATE Activities 
+SET duration = 40 
+WHERE activity_name = 'Lari Pagi' AND user_id = 1 AND date = '2024-09-23';
+
+UPDATE Health_Tracking 
+SET steps = 15000 
+WHERE user_id = 1 AND date = '2024-09-24';
+
+
+DELETE FROM Activities 
+WHERE activity_name = 'Lari Pagi' AND user_id = 1 AND date = '2024-09-23';
+
+DELETE FROM Health_Tracking 
+WHERE user_id = 1 AND date = '2024-09-23';
