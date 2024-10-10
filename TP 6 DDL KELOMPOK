@@ -1,0 +1,76 @@
+-------------------------------------------------- DATA DEFINITION LANGUAGE-------------------------------------------------------------------------------
+-- Membuat database
+CREATE DATABASE IF NOT EXISTS life_balance_app;
+
+-- Menggunakan database
+USE life_balance_app;
+
+--Tabel untuk menyimpan data pengguna
+CREATE TABLE Users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    age INTEGER,
+    job_title TEXT,
+    location TEXT,
+    marital_status TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabel untuk menyimpan data anak-anak
+CREATE TABLE Children (
+    child_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    name TEXT NOT NULL,
+    age INTEGER NOT NULL,
+    preferences TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(id)
+);
+
+-- Tabel untuk menyimpan informasi makanan sehat
+CREATE TABLE Meals (
+    meal_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    calories INTEGER,
+    ingredients TEXT,
+    recommended_for_kids BOOLEAN,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabel untuk menyimpan aktivitas harian
+CREATE TABLE Activities (
+    activity_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    activity_name TEXT NOT NULL,
+    category TEXT NOT NULL,  -- Contoh: 'Family Time', 'Work', 'Exercise', 'Personal'
+    duration INTEGER NOT NULL,  -- Durasi dalam menit
+    date DATE NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(id)
+);
+
+-- Tabel untuk menyimpan catatan kesehatan harian
+CREATE TABLE Health_Tracking (
+    health_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    steps INTEGER,  -- Jumlah langkah
+    calories_burned INTEGER,  -- Kalori yang terbakar
+    sleep_hours REAL,  -- Jumlah jam tidur
+    exercise_time INTEGER,  -- Waktu olahraga dalam menit
+    date DATE NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(id)
+);
+
+-- Tabel untuk menyimpan laporan keseimbangan kerja-hidup
+CREATE TABLE Balance_Reports (
+    report_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    work_hours INTEGER,  -- Jam kerja
+    family_time_hours INTEGER,  -- Jam bersama keluarga
+    personal_time_hours INTEGER,  -- Jam untuk diri sendiri
+    report_date DATE NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(id)
+);
