@@ -1,0 +1,146 @@
+--------------SP DQL-----------------
+DELIMITER //
+
+CREATE PROCEDURE GetAllUsers()
+BEGIN
+    SELECT * FROM Users;
+END //
+
+CREATE PROCEDURE GetAllBalanceReports()
+BEGIN
+    SELECT * FROM Balance_Reports;
+END //
+
+CREATE PROCEDURE GetAllChildren()
+BEGIN
+    SELECT * FROM Children;
+END //
+
+CREATE PROCEDURE GetAllMeals()
+BEGIN
+    SELECT * FROM Meals;
+END //
+
+CREATE PROCEDURE GetAllActivities()
+BEGIN
+    SELECT * FROM Activities;
+END //
+
+CREATE PROCEDURE GetAllHealthTracking()
+BEGIN
+    SELECT * FROM Health_Tracking;
+END //
+
+CREATE PROCEDURE GetActivitiesByUserAndDate(IN user_id INT, IN activity_date DATE)
+BEGIN
+    SELECT activity_name, category, duration, date 
+    FROM Activities
+    WHERE user_id = user_id AND date = activity_date;
+END //
+
+CREATE PROCEDURE GetMealsRecommendedForKids()
+BEGIN
+    SELECT name, calories, ingredients 
+    FROM Meals
+    WHERE recommended_for_kids = 1;
+END //
+
+CREATE PROCEDURE GetBalanceReportByUserAndDate(IN user_id INT, IN report_date DATE)
+BEGIN
+    SELECT work_hours, family_time_hours, personal_time_hours 
+    FROM Balance_Reports
+    WHERE user_id = user_id AND report_date = report_date;
+END //
+
+DELIMITER ;
+
+
+-----------------SP DML---------------------
+DELIMITER //
+
+CREATE PROCEDURE AddUser(IN name TEXT, IN email TEXT, IN age INT, IN job_title TEXT, IN location TEXT, IN marital_status TEXT)
+BEGIN
+    INSERT INTO Users (name, email, age, job_title, location, marital_status)
+    VALUES (name, email, age, job_title, location, marital_status);
+END //
+
+CREATE PROCEDURE AddChild(IN user_id INT, IN child_name TEXT, IN child_age INT, IN preferences TEXT)
+BEGIN
+    INSERT INTO Children (user_id, name, age, preferences)
+    VALUES (user_id, child_name, child_age, preferences);
+END //
+
+CREATE PROCEDURE AddMeal(IN meal_name TEXT, IN calories INT, IN ingredients TEXT, IN recommended_for_kids BOOLEAN)
+BEGIN
+    INSERT INTO Meals (name, calories, ingredients, recommended_for_kids)
+    VALUES (meal_name, calories, ingredients, recommended_for_kids);
+END //
+
+CREATE PROCEDURE AddActivity(IN user_id INT, IN activity_name TEXT, IN category TEXT, IN duration INT, IN activity_date DATE)
+BEGIN
+    INSERT INTO Activities (user_id, activity_name, category, duration, date)
+    VALUES (user_id, activity_name, category, duration, activity_date);
+END //
+
+CREATE PROCEDURE AddHealthTracking(IN user_id INT, IN steps INT, IN calories_burned INT, IN sleep_hours REAL, IN exercise_time INT, IN tracking_date DATE)
+BEGIN
+    INSERT INTO Health_Tracking (user_id, steps, calories_burned, sleep_hours, exercise_time, date)
+    VALUES (user_id, steps, calories_burned, sleep_hours, exercise_time, tracking_date);
+END //
+
+CREATE PROCEDURE AddBalanceReport(IN user_id INT, IN work_hours INT, IN family_time_hours INT, IN personal_time_hours INT, IN report_date DATE)
+BEGIN
+    INSERT INTO Balance_Reports (user_id, work_hours, family_time_hours, personal_time_hours, report_date)
+    VALUES (user_id, work_hours, family_time_hours, personal_time_hours, report_date);
+END //
+
+CREATE PROCEDURE UpdateActivityDuration(IN user_id INT, IN new_duration INT, IN activity_name TEXT, IN activity_date DATE)
+BEGIN
+    UPDATE Activities
+    SET duration = new_duration
+    WHERE user_id = user_id AND activity_name = activity_name AND date = activity_date;
+END //
+
+CREATE PROCEDURE UpdateHealthTrackingSteps(IN user_id INT, IN new_steps INT, IN tracking_date DATE)
+BEGIN
+    UPDATE Health_Tracking
+    SET steps = new_steps
+    WHERE user_id = user_id AND date = tracking_date;
+END //
+
+CREATE PROCEDURE DeleteActivity(IN user_id INT, IN activity_name TEXT, IN activity_date DATE)
+BEGIN
+    DELETE FROM Activities
+    WHERE user_id = user_id AND activity_name = activity_name AND date = activity_date;
+END //
+
+CREATE PROCEDURE DeleteHealthTracking(IN user_id INT, IN tracking_date DATE)
+BEGIN
+    DELETE FROM Health_Tracking
+    WHERE user_id = user_id AND date = tracking_date;
+END //
+
+DELIMITER ;
+
+-- Memanggil prosedur DQL
+CALL GetAllUsers();
+CALL GetAllBalanceReports();
+CALL GetAllChildren();
+CALL GetAllMeals();
+CALL GetAllActivities();
+CALL GetAllHealthTracking();
+CALL GetActivitiesByUserAndDate(1, '2024-09-23');
+CALL GetMealsRecommendedForKids();
+CALL GetBalanceReportByUserAndDate(1, '2024-09-23');
+
+-- Memanggil prosedur DML
+CALL AddUser('Maya', 'maya@startup.com', 37, 'Direktur Pemasaran', 'Jakarta Pusat', 'Menikah');
+CALL AddChild(1, 'Lily', 6, 'Suka sayuran hijau, main lego');
+CALL AddMeal('Salad Ayam', 350, 'Ayam, sayuran, saus', 1);
+CALL AddActivity(1, 'Lari Pagi', 'Exercise', 30, '2024-09-23');
+CALL AddHealthTracking(1, 10000, 500, 7.5, 30, '2024-09-23');
+CALL AddBalanceReport(1, 8, 2, 1, '2024-09-23');
+CALL UpdateActivityDuration(1, 40, 'Lari Pagi', '2024-09-23');
+CALL UpdateHealthTrackingSteps(1, 15000, '2024-09-24');
+CALL DeleteActivity(1, 'Lari Pagi', '2024-09-23');
+CALL DeleteHealthTracking(1, '2024-09-23');
