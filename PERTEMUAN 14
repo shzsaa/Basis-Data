@@ -1,0 +1,91 @@
+-- Latihan 1: Discretionary Access Control (DAC)
+-- Membuat tabel dan memberikan hak akses SELECT kepada user tertentu
+CREATE TABLE Employee (
+    ID INTEGER PRIMARY KEY,
+    Name TEXT NOT NULL,
+    Position TEXT NOT NULL
+);
+
+-- Memberikan hak akses SELECT kepada user
+-- Catatan: SQLite tidak mendukung GRANT secara bawaan. Ini dapat disimulasikan di level aplikasi.
+
+-- Latihan 2: Role-Based Access Control (RBAC)
+-- Membuat tabel Role dan User untuk mengelola akses berbasis peran
+CREATE TABLE Roles (
+    RoleID INTEGER PRIMARY KEY,
+    RoleName TEXT NOT NULL
+);
+
+CREATE TABLE Users (
+    UserID INTEGER PRIMARY KEY,
+    UserName TEXT NOT NULL,
+    RoleID INTEGER,
+    FOREIGN KEY (RoleID) REFERENCES Roles(RoleID)
+);
+
+-- Menambahkan role dan user
+INSERT INTO Roles (RoleName) VALUES ('Manager');
+INSERT INTO Roles (RoleName) VALUES ('Staff');
+INSERT INTO Users (UserName, RoleID) VALUES ('Alice', 1);
+INSERT INTO Users (UserName, RoleID) VALUES ('Bob', 2);
+
+-- Latihan 3: Membatasi Akses dengan Views
+-- Membuat view untuk membatasi data yang dapat diakses
+CREATE VIEW Employee_View AS
+SELECT ID, Name
+FROM Employee;
+
+-- Simulasi hak akses: Berikan hanya akses ke Employee_View
+-- Catatan: Implementasi hak akses tetap harus dilakukan di level aplikasi.
+
+-- Latihan 4: Mandatory Access Control (MAC)
+-- Simulasi pengelompokan data dengan tingkat keamanan
+CREATE TABLE ClassifiedData (
+    DataID INTEGER PRIMARY KEY,
+    DataContent TEXT NOT NULL,
+    SecurityLevel TEXT NOT NULL -- Contoh: 'Top Secret', 'Confidential', 'Public'
+);
+
+-- Menambahkan data dengan tingkat keamanan berbeda
+INSERT INTO ClassifiedData (DataContent, SecurityLevel) VALUES ('Sensitive Data 1', 'Top Secret');
+INSERT INTO ClassifiedData (DataContent, SecurityLevel) VALUES ('General Info', 'Public');
+
+-- Query untuk user dengan hak akses 'Public'
+SELECT DataContent FROM ClassifiedData WHERE SecurityLevel = 'Public';
+
+-- Latihan 5: SQL Injection Protection
+-- Menggunakan parameterized queries untuk mencegah SQL Injection
+-- Contoh query aman:
+-- SELECT * FROM Employee WHERE Name = ?;
+
+-- Latihan 6: Multilevel Security
+-- Simulasi pengelompokan data dengan filtering berdasarkan clearance
+CREATE TABLE MultilevelSecurity (
+    ID INTEGER PRIMARY KEY,
+    Name TEXT NOT NULL,
+    ClearanceLevel TEXT NOT NULL
+);
+
+-- Menambahkan data dengan clearance level
+INSERT INTO MultilevelSecurity (Name, ClearanceLevel) VALUES ('Document A', 'Top Secret');
+INSERT INTO MultilevelSecurity (Name, ClearanceLevel) VALUES ('Document B', 'Confidential');
+INSERT INTO MultilevelSecurity (Name, ClearanceLevel) VALUES ('Document C', 'Public');
+
+-- Query data untuk clearance 'Confidential'
+SELECT Name FROM MultilevelSecurity WHERE ClearanceLevel = 'Confidential';
+
+-- Latihan 7: Polinstantiation
+-- Simulasi penyimpanan data dengan klasifikasi berbeda pada kunci yang sama
+CREATE TABLE Polinstantiation (
+    ID INTEGER,
+    Name TEXT NOT NULL,
+    Classification TEXT NOT NULL,
+    PRIMARY KEY (ID, Classification)
+);
+
+-- Menambahkan data dengan polinstantiation
+INSERT INTO Polinstantiation (ID, Name, Classification) VALUES (1, 'Employee A', 'Top Secret');
+INSERT INTO Polinstantiation (ID, Name, Classification) VALUES (1, 'Employee B', 'Public');
+
+-- Query data dengan klasifikasi tertentu
+SELECT Name FROM Polinstantiation WHERE Classification = 'Public';
